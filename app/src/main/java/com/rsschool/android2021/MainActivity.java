@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements FragmentsSwitcher
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         openFirstFragment(0);
+        getSupportActionBar().hide();
     }
 
     private void openFirstFragment(int previousNumber) {
