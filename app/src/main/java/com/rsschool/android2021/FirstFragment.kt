@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 
 class FirstFragment : Fragment() {
@@ -25,6 +26,12 @@ class FirstFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
+    private fun buttonDisabler() {
+        generateButton?.isEnabled = (
+                ((minEditText?.text.toString().toIntOrNull() == null) and (minEditText?.text.toString() != "")) or
+                ((maxEditText?.text.toString().toIntOrNull() == null) and (maxEditText?.text.toString() != "")) ).not()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         previousResult = view.findViewById(R.id.previous_result)
@@ -32,6 +39,9 @@ class FirstFragment : Fragment() {
 
         minEditText = view.findViewById(R.id.min_value)
         maxEditText = view.findViewById(R.id.max_value)
+
+        minEditText?.addTextChangedListener {buttonDisabler()}
+        maxEditText?.addTextChangedListener {buttonDisabler()}
 
         val result = arguments?.getInt(PREVIOUS_RESULT_KEY)
         val min = arguments?.getString(MIN_VALUE_KEY)
@@ -43,7 +53,7 @@ class FirstFragment : Fragment() {
         generateButton?.setOnClickListener {
             val min = minEditText?.text.toString()
             val max = maxEditText?.text.toString()
-            if (min <= max) {
+            if (min.toIntOrNull() ?: 0 <= max.toIntOrNull() ?: 0) {
                 (activity as FragmentsSwitcher).switchToSecondFragment(min, max)
             } else {
                 (activity as FragmentsSwitcher).switchToSecondFragment(max, min)
