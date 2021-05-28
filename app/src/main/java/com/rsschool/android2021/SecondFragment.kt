@@ -13,6 +13,9 @@ class SecondFragment : Fragment() {
     private var backButton: Button? = null
     private var result: TextView? = null
 
+    private var min: String = ""
+    private var max: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,14 +29,19 @@ class SecondFragment : Fragment() {
         result = view.findViewById(R.id.result)
         backButton = view.findViewById(R.id.back)
 
-        val min = arguments?.getInt(MIN_VALUE_KEY) ?: 0
-        val max = arguments?.getInt(MAX_VALUE_KEY) ?: 0
+        min = arguments?.getString(MIN_VALUE_KEY) ?: ""
+        max = arguments?.getString(MAX_VALUE_KEY) ?: ""
 
-        result?.text = generate(min, max).toString()
+        result?.text = generate(min?.toIntOrNull() ?: 0, max?.toIntOrNull() ?: 0).toString()
 
         backButton?.setOnClickListener {
-            (activity as FragmentsSwitcher).switchToFirstFragment(result?.text.toString().toInt())
+            parentFragmentManager.popBackStack();
         }
+    }
+
+    override fun onStop() {
+        (activity as FragmentsSwitcher).switchToFirstFragment(result?.text.toString().toInt(), min, max)
+        super.onStop()
     }
 
     private fun generate(min: Int, max: Int): Int {
@@ -43,11 +51,11 @@ class SecondFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(min: Int, max: Int): SecondFragment {
+        fun newInstance(min: String, max: String): SecondFragment {
             val fragment = SecondFragment()
             val args = Bundle()
-            args.putInt(MIN_VALUE_KEY, min)
-            args.putInt(MAX_VALUE_KEY, max)
+            args.putString(MIN_VALUE_KEY, min)
+            args.putString(MAX_VALUE_KEY, max)
 
             fragment.arguments = args
             return fragment

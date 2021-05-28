@@ -34,11 +34,15 @@ class FirstFragment : Fragment() {
         maxEditText = view.findViewById(R.id.max_value)
 
         val result = arguments?.getInt(PREVIOUS_RESULT_KEY)
+        val min = arguments?.getString(MIN_VALUE_KEY)
+        val max = arguments?.getString(MAX_VALUE_KEY)
         previousResult?.text = "Previous result: ${result.toString()}"
+        minEditText?.setText(min)
+        maxEditText?.setText(max)
 
         generateButton?.setOnClickListener {
-            val min = minEditText?.text.toString().toIntOrNull() ?: 0
-            val max = maxEditText?.text.toString().toIntOrNull() ?: 0
+            val min = minEditText?.text.toString()
+            val max = maxEditText?.text.toString()
             if (min <= max) {
                 (activity as FragmentsSwitcher).switchToSecondFragment(min, max)
             } else {
@@ -50,14 +54,18 @@ class FirstFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(previousResult: Int): FirstFragment {
+        fun newInstance(previousResult: Int, min: String, max: String): FirstFragment {
             val fragment = FirstFragment()
             val args = Bundle()
             args.putInt(PREVIOUS_RESULT_KEY, previousResult)
+            args.putString(MIN_VALUE_KEY, min)
+            args.putString(MAX_VALUE_KEY, max)
             fragment.arguments = args
             return fragment
         }
 
         private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"
+        private const val MIN_VALUE_KEY = "MIN_VALUE"
+        private const val MAX_VALUE_KEY = "MAX_VALUE"
     }
 }
