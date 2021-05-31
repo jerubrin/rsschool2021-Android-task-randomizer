@@ -35,7 +35,7 @@ class SecondFragment : Fragment() {
         result?.text = generate(min?.toIntOrNull() ?: 0, max?.toIntOrNull() ?: 0).toString()
 
         backButton?.setOnClickListener {
-            parentFragmentManager.popBackStack();
+            parentFragmentManager.popBackStack()
         }
     }
 

@@ -28,8 +28,10 @@ class FirstFragment : Fragment() {
 
     private fun buttonDisabler() {
         generateButton?.isEnabled = (
-                ((minEditText?.text.toString().toIntOrNull() == null) and (minEditText?.text.toString() != "")) or
-                ((maxEditText?.text.toString().toIntOrNull() == null) and (maxEditText?.text.toString() != "")) ).not()
+                (minEditText?.text.toString().toIntOrNull() != null) &&
+                (maxEditText?.text.toString().toIntOrNull() != null) &&
+                (minEditText?.text.toString().toInt() <= maxEditText?.text.toString().toInt())
+                )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,11 +55,7 @@ class FirstFragment : Fragment() {
         generateButton?.setOnClickListener {
             val min = minEditText?.text.toString()
             val max = maxEditText?.text.toString()
-            if (min.toIntOrNull() ?: 0 <= max.toIntOrNull() ?: 0) {
-                (activity as FragmentsSwitcher).switchToSecondFragment(min, max)
-            } else {
-                (activity as FragmentsSwitcher).switchToSecondFragment(max, min)
-            }
+            (activity as FragmentsSwitcher).switchToSecondFragment(min, max)
         }
     }
 
