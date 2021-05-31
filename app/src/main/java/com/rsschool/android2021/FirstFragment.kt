@@ -65,13 +65,13 @@ class FirstFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(previousResult: Int, min: String, max: String): FirstFragment {
-            val fragment = FirstFragment()
-            val args = Bundle()
-            args.putInt(PREVIOUS_RESULT_KEY, previousResult)
-            args.putString(MIN_VALUE_KEY, min)
-            args.putString(MAX_VALUE_KEY, max)
-            fragment.arguments = args
-            return fragment
+            return FirstFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(PREVIOUS_RESULT_KEY, previousResult)
+                    putString(MIN_VALUE_KEY, min)
+                    putString(MAX_VALUE_KEY, max)
+                }
+            }
         }
 
         private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"

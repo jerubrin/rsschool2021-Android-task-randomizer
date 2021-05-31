@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements FragmentsSwitcher
     }
 
     private void openFirstFragment(int previousNumber, String min, String max) {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
         final Fragment firstFragment = FirstFragment.newInstance(previousNumber, min, max);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, firstFragment);
@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements FragmentsSwitcher
     }
 
     @Override public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0 ){
-            getFragmentManager().popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ){
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }

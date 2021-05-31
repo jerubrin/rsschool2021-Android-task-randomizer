@@ -52,13 +52,12 @@ class SecondFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(min: String, max: String): SecondFragment {
-            val fragment = SecondFragment()
-            val args = Bundle()
-            args.putString(MIN_VALUE_KEY, min)
-            args.putString(MAX_VALUE_KEY, max)
-
-            fragment.arguments = args
-            return fragment
+            return SecondFragment().apply {
+                arguments = Bundle().apply {
+                    putString(MIN_VALUE_KEY, min)
+                    putString(MAX_VALUE_KEY, max)
+                }
+            }
         }
 
         private const val MIN_VALUE_KEY = "MIN_VALUE"
